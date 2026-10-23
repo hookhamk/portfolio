@@ -1,0 +1,17 @@
+<Layouts.app flash={@flash}>
+  <h1 class="text-3xl font-bold tracking-tight">Log</h1>
+
+  <nav class="tabs tabs-box w-fit" aria-label="Filter by kind">
+    <.link navigate={~p"/log"} class={["tab", !@kind && "tab-active"]}>All</.link>
+    <.link
+      :for={kind <- Portfolio.Content.Entry.kinds()}
+      navigate={~p"/log?#{[kind: kind]}"}
+      class={["tab", @kind == kind && "tab-active"]}
+    >
+      {kind_label(kind)}
+    </.link>
+  </nav>
+
+  <p :if={@entries == []} class="text-base-content/70">Nothing here yet.</p>
+  <.entry_list entries={@entries} />
+</Layouts.app>

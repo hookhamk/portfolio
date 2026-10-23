@@ -1,0 +1,24 @@
+<Layouts.app flash={@flash}>
+  <h1 class="text-3xl font-bold tracking-tight">{@page.title}</h1>
+  <.markdown html={@page.body} />
+
+  <section class="space-y-3">
+    <h2 class="text-xl font-semibold">This page, right now</h2>
+    <p :if={!@runtime.region} class="text-base-content/70">
+      Running locally. On Fly.io this shows the region and Machine that rendered the page.
+    </p>
+    <dl class="grid grid-cols-[max-content_1fr] gap-x-6 gap-y-2 text-sm">
+      <%= for {label, value} <- [
+            {"Region", @runtime.region},
+            {"Machine", @runtime.machine_id},
+            {"App", @runtime.app},
+            {"Release", @runtime.release},
+            {"Elixir / OTP", "#{@runtime.elixir} / #{@runtime.otp}"},
+            {"Content", "#{@counts.projects} projects, #{@counts.entries} log entries"}
+          ], value do %>
+        <dt class="text-base-content/70">{label}</dt>
+        <dd class="font-mono">{value}</dd>
+      <% end %>
+    </dl>
+  </section>
+</Layouts.app>

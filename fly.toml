@@ -1,0 +1,34 @@
+# Fly.io config for the portfolio. Lives in the "projects" org.
+# Create the app once with:  fly apps create <app-name> --org projects
+app = "kelly-hookham"
+primary_region = "ord"
+
+[build]
+
+[env]
+  PHX_HOST = "kelly-hookham.fly.dev"
+  PORT = "8080"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  # Stop idle Machines, but keep one running so the first LinkedIn click is fast.
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [http_service.concurrency]
+    type = "requests"
+    soft_limit = 200
+    hard_limit = 250
+
+  [[http_service.checks]]
+    method = "GET"
+    path = "/healthz"
+    interval = "15s"
+    timeout = "2s"
+    grace_period = "10s"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"

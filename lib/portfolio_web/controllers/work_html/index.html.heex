@@ -1,0 +1,12 @@
+<Layouts.app flash={@flash}>
+  <h1 class="text-3xl font-bold tracking-tight">Work</h1>
+
+  <p :if={@groups == []} class="text-base-content/70">Nothing published yet.</p>
+
+  <section :for={{kind, projects} <- @groups} class="space-y-4">
+    <h2 class="text-xl font-semibold">{kind_label(kind)}</h2>
+    <div class="grid gap-4 sm:grid-cols-2">
+      <.project_card :for={project <- projects} project={project} />
+    </div>
+  </section>
+</Layouts.app>

@@ -1,0 +1,41 @@
+<Layouts.app flash={@flash}>
+  <article class="space-y-8">
+    <header class="space-y-3">
+      <.link navigate={~p"/work"} class="link link-hover text-sm">&larr; All work</.link>
+      <div class="flex flex-wrap items-center gap-3">
+        <h1 class="text-3xl font-bold tracking-tight">{@project.title}</h1>
+        <span class="badge badge-outline">{status_label(@project.status)}</span>
+        <.draft_badge item={@project} />
+      </div>
+      <p class="text-lg text-base-content/80">{@project.summary}</p>
+
+      <dl class="grid grid-cols-[max-content_1fr] gap-x-6 gap-y-2 text-sm">
+        <%= if @project.role do %>
+          <dt class="text-base-content/70">Role</dt>
+          <dd>{@project.role}</dd>
+        <% end %>
+        <%= if @project.started do %>
+          <dt class="text-base-content/70">When</dt>
+          <dd>{@project.started} &ndash; {@project.ended || "now"}</dd>
+        <% end %>
+        <%= if @project.stack != [] do %>
+          <dt class="text-base-content/70">Built with</dt>
+          <dd><.stack_list stack={@project.stack} /></dd>
+        <% end %>
+      </dl>
+
+      <ul :if={@project.links != []} class="flex flex-wrap gap-2">
+        <li :for={link <- @project.links}>
+          <a href={link.url} class="btn btn-sm btn-outline">{link.label}</a>
+        </li>
+      </ul>
+    </header>
+
+    <.markdown html={@project.body} />
+
+    <section :if={@history != []} class="space-y-4">
+      <h2 class="text-2xl font-semibold">History</h2>
+      <.entry_list entries={@history} />
+    </section>
+  </article>
+</Layouts.app>

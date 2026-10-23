@@ -1,0 +1,25 @@
+<Layouts.app flash={@flash}>
+  <section class="space-y-4">
+    <h1 class="text-4xl font-bold tracking-tight">{@intro.title}</h1>
+    <p :if={@intro[:tagline]} class="text-xl text-base-content/80">{@intro.tagline}</p>
+    <.markdown html={@intro.body} />
+  </section>
+
+  <section :if={@featured != []} class="space-y-4">
+    <div class="flex items-baseline justify-between">
+      <h2 class="text-2xl font-semibold">Selected work</h2>
+      <.link navigate={~p"/work"} class="link link-hover text-sm">All work &rarr;</.link>
+    </div>
+    <div class="grid gap-4 sm:grid-cols-2">
+      <.project_card :for={project <- @featured} project={project} />
+    </div>
+  </section>
+
+  <section :if={@recent != []} class="space-y-4">
+    <div class="flex items-baseline justify-between">
+      <h2 class="text-2xl font-semibold">Recently</h2>
+      <.link navigate={~p"/log"} class="link link-hover text-sm">Full log &rarr;</.link>
+    </div>
+    <.entry_list entries={@recent} />
+  </section>
+</Layouts.app>

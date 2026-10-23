@@ -1,0 +1,21 @@
+<Layouts.app flash={@flash}>
+  <article class="space-y-6">
+    <header class="space-y-2">
+      <.link navigate={~p"/log"} class="link link-hover text-sm">&larr; Log</.link>
+      <div class="flex flex-wrap items-center gap-3">
+        <h1 class="text-3xl font-bold tracking-tight">{@entry.title}</h1>
+        <.draft_badge item={@entry} />
+      </div>
+      <p class="text-sm text-base-content/70">
+        <time datetime={Date.to_iso8601(@entry.date)}>{format_date(@entry.date)}</time>
+        &middot; {kind_label(@entry.kind)}
+        <%= if @project do %>
+          &middot;
+          <.link navigate={~p"/work/#{@project.slug}"} class="link">{@project.title}</.link>
+        <% end %>
+      </p>
+    </header>
+
+    <.markdown html={@entry.body} />
+  </article>
+</Layouts.app>
